@@ -6,7 +6,6 @@
 return array(
 	'styles'         => array(
 		'plugin' => 1,
-		'font'   => 0,
 	),
 	'icons'          => 'svg',
 	'heading'        => __( 'Share this post:', 'scriptless-social-sharing' ),
@@ -18,7 +17,6 @@ return array(
 		'email'     => 1,
 		'reddit'    => 0,
 		'whatsapp'  => 0,
-		'pocket'    => 0,
 		'telegram'  => 0,
 		'hatena'    => 0,
 		'sms'       => 0,
@@ -40,6 +38,5 @@ return array(
 	'table_width'    => 'full',
 	'order'          => array(),
 	'genesis'        => 0,
-	'css_style'      => 'flex',
 	'disable_block'  => 0,
 );

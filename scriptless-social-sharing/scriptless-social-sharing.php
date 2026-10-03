@@ -12,9 +12,9 @@
  * Plugin Name:       Scriptless Social Sharing
  * Plugin URI:        https://github.com/robincornett/scriptless-social-sharing
  * Description:       A scriptless plugin to add sharing buttons.
- * Version:           3.3.1
- * Requires at least: 6.2
- * Tested up to:      6.8
+ * Version:           4.0.0
+ * Requires at least: 6.9
+ * Tested up to:      7.1
  * Requires PHP:      7.4
  * Author:            Robin Cornett
  * Author URI:        https://robincornett.com
@@ -27,53 +27,68 @@
  */
 
 // If this file is called directly, abort.
-if ( ! defined( 'WPINC' ) ) {
-	die;
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( ! defined( 'SCRIPTLESSOCIALSHARING_BASENAME' ) ) {
 	define( 'SCRIPTLESSOCIALSHARING_BASENAME', plugin_basename( __FILE__ ) );
 }
 
 if ( ! defined( 'SCRIPTLESSOCIALSHARING_VERSION' ) ) {
-	define( 'SCRIPTLESSOCIALSHARING_VERSION', '3.3.1' );
+	define( 'SCRIPTLESSOCIALSHARING_VERSION', '4.0.0' );
 }
 
-// Include classes
+if ( ! defined( 'SCRIPTLESSOCIALSHARING_FILE' ) ) {
+	define( 'SCRIPTLESSOCIALSHARING_FILE', __FILE__ );
+}
+
+if ( ! defined( 'SCRIPTLESSOCIALSHARING_DIR' ) ) {
+	define( 'SCRIPTLESSOCIALSHARING_DIR', __DIR__ );
+}
+
+spl_autoload_register( 'scriptlesssocialsharing_autoload' );
+
+/**
+ * Autoload the plugin classes from the src directory.
+ *
+ * @param string $class_name The fully qualified class name.
+ * @return void
+ */
+function scriptlesssocialsharing_autoload( $class_name ) {
+	$prefix = 'ScriptlessSocialSharing\\';
+	if ( 0 !== strpos( $class_name, $prefix ) ) {
+		return;
+	}
+
+	$file = SCRIPTLESSOCIALSHARING_DIR . '/src/' . str_replace( '\\', '/', substr( $class_name, strlen( $prefix ) ) ) . '.php';
+	if ( is_readable( $file ) ) {
+		require $file;
+	}
+}
+
+/**
+ * Include the plugin files.
+ *
+ * @return void
+ */
 function scriptlesssocialsharing_require() {
 	$files = array(
-		'class-scriptlesssocialsharing',
-		'class-scriptlesssocialsharing-enqueue',
-		'output/class-scriptlesssocialsharing-output',
-		'output/class-scriptlesssocialsharing-output-buttons',
-		'output/class-scriptlesssocialsharing-output-locations',
-		'output/class-scriptlesssocialsharing-output-pinterest',
-		'output/class-scriptlesssocialsharing-output-shortcode',
-		'output/class-scriptlesssocialsharing-output-block',
-		'output/class-scriptlesssocialsharing-output-svg',
-		'buttons/class-scriptlesssocialsharing-button',
-		'postmeta/class-scriptlesssocialsharing-postmeta',
-		'settings/class-scriptlesssocialsharing-settings',
 		'helper-functions',
-		'class-scriptlesssocialsharing-button-maker',
+		'legacy-classes',
 	);
 
 	foreach ( $files as $file ) {
-		require plugin_dir_path( __FILE__ ) . 'includes/' . $file . '.php';
+		require __DIR__ . '/includes/' . $file . '.php';
 	}
 }
 
 scriptlesssocialsharing_require();
 
-// Instantiate main class
-$scriptlesssocialsharing = new ScriptlessSocialSharing(
-	new ScriptlessSocialSharingOutputLocations(),
-	new ScriptlessSocialSharingOutputButtons(),
-	new ScriptlessSocialSharingOutputPinterest(),
-	new ScriptlessSocialSharingPostMeta(),
-	new ScriptlessSocialSharingSettings(),
-	new ScriptlessSocialSharingOutputShortcode()
+$scriptlesssocialsharing = new ScriptlessSocialSharing\Plugin(
+	new ScriptlessSocialSharing\Output\Locations(),
+	new ScriptlessSocialSharing\Output\Buttons(),
+	new ScriptlessSocialSharing\Output\Pinterest(),
+	new ScriptlessSocialSharing\PostMeta\Meta(),
+	new ScriptlessSocialSharing\Settings\Settings(),
+	new ScriptlessSocialSharing\Output\Shortcode()
 );
-
-// Run the plugin
 $scriptlesssocialsharing->run();

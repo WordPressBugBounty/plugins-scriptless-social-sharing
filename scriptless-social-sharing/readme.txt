@@ -3,10 +3,10 @@
 Contributors: littler.chicken
 Donate link: https://robincornett.com/donate/
 Tags: social networks, social sharing, sharing buttons
-Requires at least: 6.2
-Tested up to: 6.8
+Requires at least: 6.9
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 3.3.1
+Stable tag: 4.0.0
 License: GPL-2.0+
 License URI: http://www.gnu.org/licenses/gpl-2.0.txt
 
@@ -36,7 +36,7 @@ Banner/icon image credit: [Ryan McGuire on Gratisography](https://gratisography.
 
 Scriptless uses SVG files to display the social network icons, or you can revert to using the old FontAwesome webfont.
 
-Text only buttons are an option as well. And if you prefer flexbox for styling items in rows instead of table CSS, that's now available on the settings page.
+Text only buttons are an option as well.
 
 = What social networks are supported? =
 
@@ -48,7 +48,6 @@ Scriptless Social Sharing currently supports the following social networks:
 * LinkedIn
 * Reddit
 * WhatsApp
-* Pocket
 * Telegram
 * Hatena Bookmark
 * SMS
@@ -208,9 +207,17 @@ Note that there is both an `svg` and an `icon` argument in the code sample. `svg
 
 == Upgrade Notice ==
 
-3.3.0: Bluesky support has been added.
+4.0.0: possible breaking changes: complete block overhaul, general makeover
 
 == Changelog ==
+
+= 4.0.0 =
+* updated: the block has been updated for modern block compatibility
+* removed: enqueueing FontAwesome is no longer an option; icons are rendered as SVG instead
+* removed: support for Pocket
+* changed: the settings to enable and order buttons have been combined
+* changed: the plugin now uses namespaced classes and autoloading
+* changed: the new minimum WordPress version is 6.9
 
 = 3.3.1 =
 * changed: update heading, shortcode output
